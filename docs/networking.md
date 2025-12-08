@@ -41,7 +41,7 @@ Use the provided [systemd service] to open this tunel automatically during boot 
 sudo apt-get install autossh
 
 # Symlink .service file to systemd
-sudo ln -s ./rbx/systemd/r1-ssh-tunnel.service /etc/systemd/system/r1-ssh-tunnel.service
+sudo ln -s $(pwd)/rbx/systemd/r1-ssh-tunnel.service /etc/systemd/system/r1-ssh-tunnel.service
 
 # Start the service manually to verify it works
 sudo systemctl start r1-ssh-tunnel.service
