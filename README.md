@@ -1,5 +1,4 @@
-# PCloud
+# Infra
 
-[Private/Personal Cloud]
-
-Setup scripts, docs and IaC for my private cloud services and personal lab.
+Docs, Scripts and IaC to setup and operate several services
+across multiple hosts.
