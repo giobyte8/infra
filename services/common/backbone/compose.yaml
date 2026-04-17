@@ -1,0 +1,57 @@
+
+services:
+  neo4j:
+    image: neo4j:2025
+    ports:
+      # Neo4j Browser: http://localhost:7474
+      #   Default username: neo4j
+      #   Default password: neo4j (change on first login)
+      - ${NEO4J_UI_PORT}:7474
+      - ${NEO4J_BOLT_PORT}:7687
+    volumes:
+      - neo4j_data:/data
+
+  postgres:
+    image: postgres:18-alpine
+    restart: unless-stopped
+    # ports:
+      # - ${POSTGRES_PORT}:5432
+    environment:
+      - 'POSTGRES_USER=${POSTGRES_USER}'
+      - 'POSTGRES_PASSWORD=${POSTGRES_PASS}'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    restart: unless-stopped
+    ports:
+      - ${PGADMIN_UI_PORT}:80
+    environment:
+      - 'PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}'
+      - 'PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASS}'
+
+  rabbitmq:
+    image: rabbitmq:4.2-management-alpine
+    ports:
+    #   - 5671:5671
+    #   - 5672:5672
+    #   - 15671:15671
+      - ${RABBITMQ_UI_PORT}:15672
+    environment:
+      - 'RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}'
+      - 'RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS}'
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+      - ./config/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+
+  redis:
+    image: redis:8.6-alpine
+    # ports:
+      # - ${REDIS_PORT}:6379
+
+volumes:
+  rabbitmq_data:
+  neo4j_data:
+  postgres_data:
+
