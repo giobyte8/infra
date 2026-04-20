@@ -1,0 +1,20 @@
+name: fleet
+
+include:
+  - ../../services/common/backbone/compose.yaml
+  - ../../services/galleries/compose.yaml
+
+services:
+  thumbnailer:
+    environment:
+      - 'OTEL_ENABLED=false'
+    volumes:
+      - /Users/giobyte8/Pictures:/media/originals:ro
+      - /Users/giobyte8/src/thumbnailer/runtime/thumbs_host_m4:/media/thumbs
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.1.0/24

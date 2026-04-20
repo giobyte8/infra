@@ -1,0 +1,26 @@
+
+services:
+  thumbnailer:
+    image: giobyte8/thumbnailer:dev
+    environment:
+      - 'LOG_LEVEL=INFO'
+
+      - 'RABBITMQ_HOST=rabbitmq'
+      - 'RABBITMQ_PORT=5672'
+      - 'RABBITMQ_USER=${RABBITMQ_USER}'
+      - 'RABBITMQ_PASS=${RABBITMQ_PASS}'
+      - 'RABBITMQ_VHOST=/'
+
+      - 'AMQP_EXCHANGE=GL_EXCHANGE'
+      - 'AMQP_QUEUE_THUMB_GEN_REQUESTS=GL_GEN_THUMB_REQUESTS'
+      - 'AMQP_QUEUE_THUMB_DEL_REQUESTS=GL_DEL_THUMB_REQUESTS'
+
+      - 'THUMBNAIL_WIDTHS_PX=512,256'
+      - 'DIR_ORIGINALS_ROOT=/media/originals'
+      - 'DIR_THUMBNAILS_ROOT=/media/thumbs'
+
+      - 'OTEL_ENABLED=true'
+      - 'OTEL_COLLECTOR_GRPC_ENDPOINT=otelcol:4317'
+
+    depends_on:
+      - rabbitmq
