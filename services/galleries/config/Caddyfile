@@ -1,0 +1,19 @@
+:8888 {
+  root * /data
+
+  encode zstd gzip
+
+  # Development CORS and safe content-type handling for static assets.
+  header {
+    Access-Control-Allow-Origin "*"
+    X-Content-Type-Options "nosniff"
+  }
+
+  @healthz path /healthz
+  respond @healthz 200
+
+  @thumbs path /thumbs/*
+  header @thumbs Cache-Control "public, max-age=31536000, immutable"
+
+  file_server browse
+}

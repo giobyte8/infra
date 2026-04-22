@@ -52,3 +52,21 @@ services:
     depends_on:
       - rabbitmq
       - neo4j
+
+  estatico:
+    image: caddy:latest
+    restart: unless-stopped
+    ports:
+      - "${GL_ESTATICO_PORT}:8888/tcp"
+      - "${GL_ESTATICO_PORT}:8888/udp"
+    volumes:
+      - estatico_caddy_data:/data/caddy
+      - estatico_caddy_config:/config
+      - ./config/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ${GL_PATH_ORIGINALS}:/data/media:ro
+      - ${GL_PATH_THUMBS}:/data/thumbs:ro
+
+
+volumes:
+  estatico_caddy_data:
+  estatico_caddy_config:
