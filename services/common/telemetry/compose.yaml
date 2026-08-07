@@ -11,12 +11,23 @@ services:
     #   - 55679:55679 # zpages extension
     volumes:
       - "./config/otelcol.yaml:/etc/otelcol-contrib/config.yaml"
+    depends_on:
+      prometheus:
+        condition: service_healthy
+      jaeger:
+        condition: service_healthy
 
   # From: https://www.jaegertracing.io/docs/2.5/getting-started/#all-in-one
   jaeger:
     image: jaegertracing/jaeger:2.5.0
     ports:
       - ${JAEGER_UI_PORT}:16686 # UI
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:13133/status"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 3s
 
   prometheus:
     image: prom/prometheus:latest
@@ -29,6 +40,12 @@ services:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.retention.time=90d"
       - "--web.enable-lifecycle"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:9090/-/ready"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 3s
 
   grafana:
     image: grafana/grafana-oss:latest
@@ -43,7 +60,10 @@ services:
       - "GF_SECURITY_ADMIN_PASSWORD=$GRAFANA_PASS"
       # - GF_INSTALL_PLUGINS= # You can install plugins here if needed
     depends_on:
-      - prometheus
+      prometheus:
+        condition: service_healthy
+      jaeger:
+        condition: service_healthy
 
 volumes:
   prometheus_data:
