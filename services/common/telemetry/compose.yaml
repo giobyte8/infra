@@ -11,6 +11,12 @@ services:
     #   - 55679:55679 # zpages extension
     volumes:
       - "./config/otelcol.yaml:/etc/otelcol-contrib/config.yaml"
+    healthcheck:
+      test: ["CMD", "/otelcol-contrib", "validate", "--config=/etc/otelcol-contrib/config.yaml"]
+      interval: 5m
+      timeout: 10s
+      retries: 0
+      start_period: 5s
     depends_on:
       prometheus:
         condition: service_healthy

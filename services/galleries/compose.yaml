@@ -26,7 +26,10 @@ services:
       - '${GL_PATH_ORIGINALS}:/media/originals:ro'
       - gl_thumbs:/media/thumbs
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
+      otelcol:
+        condition: service_started
 
   galleries:
     image: giobyte8/galleries:dev
@@ -56,8 +59,12 @@ services:
       - gl_runtime:/mnt/runtime
       - '${GL_PATH_ORIGINALS}:/media/originals:ro'
     depends_on:
-      - rabbitmq
-      - neo4j
+      rabbitmq:
+        condition: service_healthy
+      neo4j:
+        condition: service_healthy
+      otelcol:
+        condition: service_started
 
   estatico:
     image: caddy:latest
