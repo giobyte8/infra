@@ -1,0 +1,21 @@
+name: fleet
+
+include:
+  - ../../services/common/backbone/compose.yaml
+  #- ../../services/common/telemetry/compose.yaml
+  #- ../../services/galleries/compose.yaml
+
+services:
+
+  # start multiple replicas via `dc up -d --scale thumbnailer=3`
+  # thumbnailer:
+  #   environment:
+  #     - 'OTEL_ENABLED=true'
+
+networks:
+  default:
+    name: fleet
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.2.0/24
