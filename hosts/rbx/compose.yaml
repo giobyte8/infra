@@ -1,11 +1,11 @@
-name: fleet
+name: fl
 
 include:
-  - ../../services/common/backbone/compose.yaml
-  #- ../../services/common/telemetry/compose.yaml
+  #- ../../services/common/backbone/compose.yaml
+  - ../../services/common/telemetry/compose.yaml
   #- ../../services/galleries/compose.yaml
 
-services:
+#services:
 
   # start multiple replicas via `dc up -d --scale thumbnailer=3`
   # thumbnailer:
