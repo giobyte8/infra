@@ -3,12 +3,21 @@ name: fl
 include:
   - ../../services/common/backbone/compose.yaml
   - ../../services/common/telemetry/compose.yaml
+  - ../../services/ddownloader/compose.yaml
   #- ../../services/galleries/compose.yaml
 
 services:
   postgres:
     ports:
       - ${POSTGRES_PORT}:5432
+
+  ddownloader:
+    env_file:
+      - config/ddownloader/ddownloader.env
+    ports:
+      - ${DDOWNLOADER_PORT}:5001
+    volumes:
+      - ./config/ddownloader/gdl-base.json:/opt/ddownloader/config/gdl-base.json
 
   # start multiple replicas via `dc up -d --scale thumbnailer=3`
   # thumbnailer:

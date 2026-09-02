@@ -1,8 +1,7 @@
 
 services:
   ddownloader:
-    image: giobyte8/ddownloader:1.4.1
-    container_name: ddownloader
+    image: giobyte8/ddownloader:1.5.0
     user: "${UID}:${GID}"                        # Ensure it exists your env
     restart: unless-stopped
 
