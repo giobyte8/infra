@@ -1,0 +1,31 @@
+
+services:
+  ddownloader:
+    image: giobyte8/ddownloader:1.4.1
+    container_name: ddownloader
+    user: "${UID}:${GID}"                        # Ensure it exists your env
+    restart: unless-stopped
+
+    # Override on each host:
+    # env_file:
+    #   - ddownloader.env
+
+    # Override on each host:
+    # ports:
+    #   - "8080:5001"
+
+    environment:
+      - "TZ=America/Mexico_City"
+    volumes:
+      - "ddownloader_runtime:/opt/ddownloader/config/runtime"
+
+      # Downloaded files will be saved here
+      - "$GALLERIES_PATH:/opt/ddownloader/data"
+
+      # Override on each host
+      # - "./gdl-base.json:/opt/ddownloader/config/gdl-base.json"
+
+
+
+volumes:
+  ddownloader_runtime:
