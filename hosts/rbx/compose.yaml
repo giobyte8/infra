@@ -1,11 +1,14 @@
 name: fl
 
 include:
-  #- ../../services/common/backbone/compose.yaml
+  - ../../services/common/backbone/compose.yaml
   - ../../services/common/telemetry/compose.yaml
   #- ../../services/galleries/compose.yaml
 
-#services:
+services:
+  postgres:
+    ports:
+      - ${POSTGRES_PORT}:5432
 
   # start multiple replicas via `dc up -d --scale thumbnailer=3`
   # thumbnailer:
